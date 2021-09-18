@@ -1,16 +1,33 @@
-# print("Starting to make a coffee")
-# print("Grinding coffee beans")
-# print("Boiling water")
-# print("Mixing boiled water with crushed coffee beans")
-# print("Pouring coffee into the cup")
-# print("Pouring some milk into the cup")
-# print("Coffee is ready!")
+print("Write how many ml of water the coffee machine has:")
+water = int(input())
+print("Write how many ml of milk the coffee machine has:")
+milk = int(input())
+print("Write how many grams of coffee beans the coffee machine has:")
+coffee = int(input())
 print("Write how many cups of coffee you will need:")
-amount = int(input())  # cups
-water = 200  # ml
-milk = 50  # ml
-coffee = 15  # g
-print(f"For {amount} cups of coffee you will need:")
-print(f"{water*amount} ml of water")
-print(f"{milk*amount} ml of milk")
-print(f"{coffee*amount} g of coffee beans")
+cups = int(input())
+
+coffee_recipe = {
+    'water': 200,
+    'milk': 50,
+    'coffee': 15
+}
+
+cups_count = 0
+
+while (
+    water >= coffee_recipe['water'] and
+    milk >= coffee_recipe['milk'] and
+    coffee >= coffee_recipe['coffee']
+):
+    cups_count += 1
+    water -= coffee_recipe['water']
+    milk -= coffee_recipe['milk']
+    coffee -= coffee_recipe['coffee']
+
+if cups > cups_count:
+    print(f"No, I can make only {cups_count} cup(s) of coffee")
+elif cups < cups_count:
+    print(f"Yes, I can make that amount of coffee (and even {cups_count - cups} more than that)")
+else:
+    print("Yes, I can make that amount of coffee")
