@@ -1,33 +1,76 @@
-print("Write how many ml of water the coffee machine has:")
-water = int(input())
-print("Write how many ml of milk the coffee machine has:")
-milk = int(input())
-print("Write how many grams of coffee beans the coffee machine has:")
-coffee = int(input())
-print("Write how many cups of coffee you will need:")
-cups = int(input())
+from dataclasses import dataclass
 
-coffee_recipe = {
-    'water': 200,
-    'milk': 50,
-    'coffee': 15
-}
 
-cups_count = 0
+@dataclass
+class CoffeeMachine:
+    water: int
+    milk: int
+    coffee_beams: int
+    disposable_cups: int
+    cash: int
+    recipes = {
+        "1": {
+            "name": "espresso",
+            "water": 250,
+            "milk": 0,
+            "coffee": 16,
+            "cost": 4
+        },
+        "2": {
+            "name": "latte",
+            "water": 350,
+            "milk": 75,
+            "coffee": 20,
+            "cost": 7
+        },
+        "3": {
+            "name": "cappuccino",
+            "water": 200,
+            "milk": 100,
+            "coffee": 12,
+            "cost": 6
+        }
+    }
 
-while (
-    water >= coffee_recipe['water'] and
-    milk >= coffee_recipe['milk'] and
-    coffee >= coffee_recipe['coffee']
-):
-    cups_count += 1
-    water -= coffee_recipe['water']
-    milk -= coffee_recipe['milk']
-    coffee -= coffee_recipe['coffee']
+    def get_status(self):
+        print("The coffee machine has:")
+        print(f"{self.water} of water")
+        print(f"{self.milk} of milk")
+        print(f"{self.coffee_beams} of coffee beans")
+        print(f"{self.disposable_cups} of disposable cups")
+        print(f"{self.cash} of money")
 
-if cups > cups_count:
-    print(f"No, I can make only {cups_count} cup(s) of coffee")
-elif cups < cups_count:
-    print(f"Yes, I can make that amount of coffee (and even {cups_count - cups} more than that)")
-else:
-    print("Yes, I can make that amount of coffee")
+
+coffee_machine = CoffeeMachine(
+    cash=550,
+    water=400,
+    milk=540,
+    coffee_beams=120,
+    disposable_cups=9
+)
+coffee_machine.get_status()
+print("Write action (buy, fill, take):")
+action = input()
+if action == "fill":
+    print("Write how many ml of water you want to add:")
+    coffee_machine.water += int(input())
+    print("Write how many ml of milk you want to add:")
+    coffee_machine.milk += int(input())
+    print("Write how many grams of coffee beans you want to add:")
+    coffee_machine.coffee_beams += int(input())
+    print("Write how many disposable coffee cups you want to add:")
+    coffee_machine.disposable_cups += int(input())
+elif action == "take":
+    print(f"I gave you {coffee_machine.cash}")
+    coffee_machine.cash = 0
+elif action == "buy":
+    print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+    coffee_option = input()
+    recipe = coffee_machine.recipes[coffee_option]
+    coffee_machine.cash += recipe["cost"]
+    coffee_machine.milk -= recipe["milk"]
+    coffee_machine.water -= recipe["water"]
+    coffee_machine.coffee_beams -= recipe["coffee"]
+    coffee_machine.disposable_cups -= 1
+
+coffee_machine.get_status()
